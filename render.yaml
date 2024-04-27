@@ -1,0 +1,23 @@
+databases:
+  - name: uber-eats-like-db
+    databaseName: uber_eats_like_db
+    user: uber_eats_like
+    plan: free
+
+services:
+  - type: web
+    name: uber-eats-like
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: uber-eats-like-db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2 # sensible default
