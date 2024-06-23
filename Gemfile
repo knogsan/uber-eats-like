@@ -47,4 +47,6 @@ end
 
 group :production do
   gem "pg"
+  # Use hiredis to get better performance than the "redis" gem
+  gem 'hiredis'
 end
